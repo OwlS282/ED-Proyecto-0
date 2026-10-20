@@ -1,0 +1,14 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "Solitario\\x64\\Debug\\__msvc_formatter.obj",
+            "outputs": [
+                "Solitario\\x64\\Debug\\__msvc_formatter.hpp.obj.dt.module.json",
+                "Solitario\\x64\\Debug\\__msvc_formatter.hpp.obj.dt.d.json"
+            ],
+            "requires": []
+        }
+    ]
+}
