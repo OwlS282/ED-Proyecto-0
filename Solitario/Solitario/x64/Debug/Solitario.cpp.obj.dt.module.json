@@ -1,0 +1,14 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "Solitario\\x64\\Debug\\Solitario.obj",
+            "outputs": [
+                "Solitario\\x64\\Debug\\Solitario.cpp.obj.dt.module.json",
+                "Solitario\\x64\\Debug\\Solitario.cpp.obj.dt.d.json"
+            ],
+            "requires": []
+        }
+    ]
+}
