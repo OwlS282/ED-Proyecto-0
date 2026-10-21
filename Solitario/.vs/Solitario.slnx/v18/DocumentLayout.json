@@ -3,8 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\owell\\Documents\\GitHub\\ED-Proyecto-0\\Solitario\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{CEB04922-F8F0-4736-9B9D-2D4B58D8B9C5}|Solitario.vcxproj|C:\\Users\\owell\\Documents\\GitHub\\ED-Proyecto-0\\Solitario\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{CEB04922-F8F0-4736-9B9D-2D4B58D8B9C5}|Solitario.vcxproj|solutionrelative:main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{CEB04922-F8F0-4736-9B9D-2D4B58D8B9C5}|Solitario.vcxproj|C:\\Users\\owell\\Documents\\GitHub\\ED-Proyecto-0\\Solitario\\src\\core\\Game.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{CEB04922-F8F0-4736-9B9D-2D4B58D8B9C5}|Solitario.vcxproj|solutionrelative:src\\core\\Game.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CEB04922-F8F0-4736-9B9D-2D4B58D8B9C5}|Solitario.vcxproj|C:\\Users\\owell\\Documents\\GitHub\\ED-Proyecto-0\\Solitario\\src\\core\\Card.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{CEB04922-F8F0-4736-9B9D-2D4B58D8B9C5}|Solitario.vcxproj|solutionrelative:src\\core\\Card.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CEB04922-F8F0-4736-9B9D-2D4B58D8B9C5}|Solitario.vcxproj|C:\\Users\\owell\\Documents\\GitHub\\ED-Proyecto-0\\Solitario\\src\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{CEB04922-F8F0-4736-9B9D-2D4B58D8B9C5}|Solitario.vcxproj|solutionrelative:src\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -19,12 +27,50 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "main.cpp",
-              "DocumentMoniker": "C:\\Users\\owell\\Documents\\GitHub\\ED-Proyecto-0\\Solitario\\main.cpp",
-              "RelativeDocumentMoniker": "main.cpp",
-              "ToolTip": "C:\\Users\\owell\\Documents\\GitHub\\ED-Proyecto-0\\Solitario\\main.cpp",
-              "RelativeToolTip": "main.cpp",
+              "Title": "Game.h",
+              "DocumentMoniker": "C:\\Users\\owell\\Documents\\GitHub\\ED-Proyecto-0\\Solitario\\src\\core\\Game.h",
+              "RelativeDocumentMoniker": "src\\core\\Game.h",
+              "ToolTip": "C:\\Users\\owell\\Documents\\GitHub\\ED-Proyecto-0\\Solitario\\src\\core\\Game.h",
+              "RelativeToolTip": "src\\core\\Game.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-10-20T00:49:06.387Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Card.h",
+              "DocumentMoniker": "C:\\Users\\owell\\Documents\\GitHub\\ED-Proyecto-0\\Solitario\\src\\core\\Card.h",
+              "RelativeDocumentMoniker": "src\\core\\Card.h",
+              "ToolTip": "C:\\Users\\owell\\Documents\\GitHub\\ED-Proyecto-0\\Solitario\\src\\core\\Card.h",
+              "RelativeToolTip": "src\\core\\Card.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-10-20T00:45:37.409Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{c6f34f0d-7ae5-4f3a-be61-fe0c21ae9eb8}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "main.cpp",
+              "DocumentMoniker": "C:\\Users\\owell\\Documents\\GitHub\\ED-Proyecto-0\\Solitario\\src\\main.cpp",
+              "RelativeDocumentMoniker": "src\\main.cpp",
+              "ToolTip": "C:\\Users\\owell\\Documents\\GitHub\\ED-Proyecto-0\\Solitario\\src\\main.cpp",
+              "RelativeToolTip": "src\\main.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2026-10-19T23:45:31.94Z",
               "EditorCaption": ""
