@@ -1,6 +1,8 @@
 #pragma once
 
 #include <ostream>
+#include <iostream>
+#include <stdexcept>
 #include "Deck.h"
 #include "Card.h"
 #include "Action.h"
@@ -18,9 +20,13 @@ protected:
 	Deck stock;
 	int columnAmount = 0;
 
-	Game(int amount, int columnAmount, int maxHistory = limitHistory) : undoHistory(maxHistory), redoHistory(maxHistory), stock(amount), columnAmount(columnAmount) {}
+	Game(int amount, int columnAmount, int maxHistory = limitHistory) : undoHistory(maxHistory), redoHistory(maxHistory), stock(amount), columnAmount(columnAmount) 
+	{
+		columns = new LinkedList<Card>[columnAmount];
+	}
+
 public:
-	~Game() {
+	virtual ~Game() {
 		this->clearRedoHistory();
 		this->clearUndoHistory();
 		delete[] this->columns;
