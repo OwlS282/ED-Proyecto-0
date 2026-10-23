@@ -11,6 +11,7 @@ class Deck
 private:
 	ArrayList<Card> cards;
 	static const int cardsInADeck = 52;
+	int amount;
 
 	void swap(Card* a, Card* b) {
 		Card temp = *a;
@@ -24,10 +25,8 @@ private:
 
 		return cardsInADeck * amount;
 	}
-public:
-	Deck(int amount) : cards(validatedSize(amount)) {
-		std::srand(std::time(nullptr));
-
+	void fill()
+	{
 		for (int i = 0; i < amount; i++) {
 			for (int suit = 0; suit < 4; suit++) {
 				for (int rank = 1; rank <= Card::maxRank; rank++) {
@@ -36,6 +35,13 @@ public:
 				}
 			}
 		}
+	}
+
+public:
+	Deck(int amount) : cards(validatedSize(amount)) {
+		this->amount = amount;
+		std::srand(std::time(nullptr));
+		fill();
 	}
 
 	void shuffle() {
@@ -59,4 +65,11 @@ public:
 	int getSize() {
 		return this->cards.getSize();
 	}
+
+	void reset(int amount) 
+	{
+		cards.clear();
+		fill(amount);
+	}
+	
 };

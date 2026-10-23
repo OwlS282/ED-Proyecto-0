@@ -13,19 +13,32 @@ private:
 	int roundScore = 0;
 	ArrayStack<Card> discardPile;
 
-
-
 	public:
 		GolfGame() : Game(1,7), discardPile(52) {}
 		void init()
 		{
-
+			for (int i = 0; i < columnAmount; i++)
+				for (int j = 0; j < 5; j++)
+				{
+					columns[i].clear();
+				}
+			discardPile.clear();
+			stock.reset();
+			roundScore = 0;
+			stock.shuffle();
+			for (int i = 0; i < columnAmount; i++)
+				for (int j = 0; j < 5; j++)
+				{
+					columns[i].append(stock.draw());
+				}
+			discardPile.push(stock.draw());
 		}
-		void play()
+
+		void end()
 		{
 
 		}
-		void end()
+		void play()
 		{
 
 		}
