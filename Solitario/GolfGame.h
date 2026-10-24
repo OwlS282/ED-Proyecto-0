@@ -2,6 +2,8 @@
 #include "Game.h"
 #include "ArrayStack.h"
 #include "Card.h"
+#include "Deck.h"
+#include "LinkedList.h"
 
 
 
@@ -18,12 +20,11 @@ private:
 		void init()
 		{
 			for (int i = 0; i < columnAmount; i++)
-				for (int j = 0; j < 5; j++)
-				{
-					columns[i].clear();
-				}
+				columns[i].clear();
 			discardPile.clear();
 			stock.reset();
+			clearRedoHistory();
+			clearUndoHistory();
 			roundScore = 0;
 			stock.shuffle();
 			for (int i = 0; i < columnAmount; i++)
@@ -32,6 +33,7 @@ private:
 					columns[i].append(stock.draw());
 				}
 			discardPile.push(stock.draw());
+			numRound += 1;
 		}
 
 		void end()
@@ -44,7 +46,7 @@ private:
 		}
 		void drawFromStock()
 		{
-
+			b  
 		}
 
 };
