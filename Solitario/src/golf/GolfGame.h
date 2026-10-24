@@ -89,5 +89,45 @@ public:
 			discardPile.push(stock.draw());
 
 	}
+	Card getColumnTop(int numColumn)
+	{
+		columns[numColumn].goToEnd;
+		return columns[numColumn].getElement;
+	}
+	Card getDiscardPileTop()
+	{
+		return discardPile.topValue()
+	}
 
+	void ColumnToDiscard(int numColumn)
+	{
+		Card columnCard = getColumnTop(numColumn);
+		Card discardCard = getDiscardPileTop();
+		if (columnCard.isAdjacentRank(discardCard))
+		{
+			discardPile.push(columnCard);
+			columns[numColumn].remove();
+		}
+	}
+	void DiscardToColumn(int numColumn)
+	{
+		Card discardCard = discardPile.pop();
+		columns[numColumn].append(discardCard);
+	}
+	void DeckToDiscard()
+	{
+		discardPile.push(stock.draw());
+	}
+	void DiscardToDeck()
+	{
+		stock.putBack(discardPile.pop());
+	}
+	bool isValideMove(int numColumn)
+	{
+		if (numColumn)
+	}
+	bool isstockEmpty()
+	{
+		return stock.isEmpty()
+	}
 };
