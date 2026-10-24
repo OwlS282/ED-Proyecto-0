@@ -20,10 +20,10 @@ Clase GolfGame:
 */
 
 #pragma once
-
 #include "../core/Game.h"
 #include "../structures/ArrayStack.h"
 #include "../core/Card.h"
+
 
 class GolfGame : public Game {
 private:
@@ -37,7 +37,7 @@ private:
 
 
 public:
-	GolfGame() : Game(1,7), discardPile(52) {}
+	GolfGame() : Game(1,7,100), discardPile(52) {}
 	void init()
 	{
 
@@ -86,13 +86,15 @@ public:
 	void drawFromStock()
 	{
 		if (!stock.isEmpty())
-			discardPile.push(stock.draw());
+		{
+			executeAction(new MovefromStock());
+		}
 
 	}
 	Card getColumnTop(int numColumn)
 	{
-		columns[numColumn].goToEnd;
-		return columns[numColumn].getElement;
+		columns[numColumn].goToPos(columns[numColumn].getSize() - 1);
+		return columns[numColumn].getElement();
 	}
 	Card getDiscardPileTop()
 	{
@@ -102,12 +104,8 @@ public:
 	void ColumnToDiscard(int numColumn)
 	{
 		Card columnCard = getColumnTop(numColumn);
-		Card discardCard = getDiscardPileTop();
-		if (columnCard.isAdjacentRank(discardCard))
-		{
-			discardPile.push(columnCard);
-			columns[numColumn].remove();
-		}
+		discardPile.push(columnCard);
+		columns[numColumn].remove();
 	}
 	void DiscardToColumn(int numColumn)
 	{
@@ -124,10 +122,15 @@ public:
 	}
 	bool isValideMove(int numColumn)
 	{
-		if (numColumn)
+		if (numColumn < 1 || numColumn > 7)
+			return false;
+		else if (columns[numColumn].getSize() == 0)
+			return false;
+		else if (getColumnTop(numColumn).isAdjacentRank(getDiscardPileTop()))
+			return true;
 	}
-	bool isstockEmpty()
+	bool isStockEmpty()
 	{
-		return stock.isEmpty()
+		return stock.isEmpty();
 	}
 };
