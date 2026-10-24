@@ -1,0 +1,14 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "Solitario\\x64\\Debug\\GolfGame.obj",
+            "outputs": [
+                "Solitario\\x64\\Debug\\GolfGame.h.obj.dt.module.json",
+                "Solitario\\x64\\Debug\\GolfGame.h.obj.dt.d.json"
+            ],
+            "requires": []
+        }
+    ]
+}

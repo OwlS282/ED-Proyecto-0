@@ -127,7 +127,19 @@
             "c:\\program files (x86)\\windows kits\\10\\include\\10.0.26100.0\\ucrt\\ctype.h",
             "c:\\program files\\microsoft visual studio\\18\\community\\vc\\tools\\msvc\\14.51.36231\\include\\clocale",
             "c:\\program files (x86)\\windows kits\\10\\include\\10.0.26100.0\\ucrt\\locale.h",
-            "c:\\program files\\microsoft visual studio\\18\\community\\vc\\tools\\msvc\\14.51.36231\\include\\ostream"
+            "c:\\program files\\microsoft visual studio\\18\\community\\vc\\tools\\msvc\\14.51.36231\\include\\ostream",
+            "c:\\users\\owell\\documents\\github\\ed-proyecto-0\\solitario\\src\\spider\\spidergame.h",
+            "c:\\users\\owell\\documents\\github\\ed-proyecto-0\\solitario\\src\\core\\game.h",
+            "c:\\users\\owell\\documents\\github\\ed-proyecto-0\\solitario\\src\\core\\deck.h",
+            "c:\\users\\owell\\documents\\github\\ed-proyecto-0\\solitario\\src\\structures\\arraylist.h",
+            "c:\\users\\owell\\documents\\github\\ed-proyecto-0\\solitario\\src\\structures\\list.h",
+            "c:\\users\\owell\\documents\\github\\ed-proyecto-0\\solitario\\src\\core\\card.h",
+            "c:\\users\\owell\\documents\\github\\ed-proyecto-0\\solitario\\src\\core\\action.h",
+            "c:\\users\\owell\\documents\\github\\ed-proyecto-0\\solitario\\src\\structures\\linkedlist.h",
+            "c:\\users\\owell\\documents\\github\\ed-proyecto-0\\solitario\\src\\structures\\node.h",
+            "c:\\users\\owell\\documents\\github\\ed-proyecto-0\\solitario\\src\\structures\\arraystack.h",
+            "c:\\users\\owell\\documents\\github\\ed-proyecto-0\\solitario\\src\\structures\\stack.h",
+            "c:\\users\\owell\\documents\\github\\ed-proyecto-0\\solitario\\src\\spider\\spideractions.h"
         ],
         "ImportedModules": [],
         "ImportedHeaderUnits": []
