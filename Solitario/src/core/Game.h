@@ -1,116 +1,171 @@
+/*
+Instituto Tecnologico de Costa Rica
+
+Integrantes:	Owel Jafet Gutiérrez Ortiz,		2026800869
+				Miranda Jiménez Alvarado,		2026XXXXXX
+				Keishiro Gabriel Cubero Abe,	2026XXXXXX
+				Eduardo Alfonso Moreno Pérez,	2026XXXXXX
+
+Profesor : Mauricio Aviles Cisneros
+
+Semana 13 : Proyecto 0 - Juegos de Solitario
+
+Fecha de entrega : 26 / 10 / 2026
+
+*/
+
+/*
+Clase Game:
+	Clase abstracta base de los juegos de solitario. Administra las columnas
+	de cartas (listas enlazadas), el stock (mazo) y los historiales de
+	deshacer y rehacer, que guardan acciones. Define las operaciones que cada
+	juego debe implementar (init, play, end y drawFromStock) e imprime las
+	columnas del tablero.
+*/
+
 #pragma once
 
 #include <ostream>
 #include <iostream>
 #include <stdexcept>
-#include "Deck.h"
-#include "Card.h"
-#include "Action.h"
-#include "LinkedList.h"
-#include "ArrayStack.h"
+#include "../core/Deck.h"
+#include "../core/Card.h"
+#include "../core/Action.h"
+#include "../structures/LinkedList.h"
+#include "../structures/ArrayList.h"
+#include "../structures/ArrayStack.h"
+using std::cout;
+using std::runtime_error;
 
-class Game
-{
+class Game {
 protected:
-	const static int limitHistory = 10;
+	const static int limitHistory = 10;		// Capacidad por defecto del historial de deshacer
 
-	LinkedList<Card>* columns = nullptr;
-	ArrayStack<Action*> undoHistory;
-	ArrayStack<Action*> redoHistory;
-	Deck stock;
-	int columnAmount = 0;
+	LinkedList<Card>* columns = nullptr;	// Arreglo dinámico de listas enlazadas para las columnas
+	int columnAmount = 0;					// Cantidad total de columnas en el tablero
+	Deck stock;								// Mazo principal de cartas del juego
+	int maxHistory;							// Límite máximo de acciones almacenadas en el historial
+	ArrayList<Action*> undoHistory;			// Historial circular/limitado de deshacer (descarta lo más viejo al llenarse)
+	ArrayStack<Action*> redoHistory;		// Pila de acciones para rehacer
 
-	Game(int amount, int columnAmount, int maxHistory = limitHistory) : undoHistory(maxHistory), redoHistory(maxHistory), stock(amount), columnAmount(columnAmount) 
-	{
-		columns = new LinkedList<Card>[columnAmount];
+
+	// Constructor protegido: Inicializa columnas, mazo e historiales
+	Game(int amount, int columnAmount, int maxHistory = limitHistory)
+		: columns(new LinkedList<Card>[columnAmount]),
+		  columnAmount(columnAmount),
+		  stock(amount),
+		  maxHistory(maxHistory),
+		  undoHistory(maxHistory),
+		  redoHistory(maxHistory)
+	{}
+
+	// Agrega una acción al historial de deshacer; descarta la más antigua si supera 'maxHistory'
+	void pushUndo(Action* a) {
+		if (this->undoHistory.getSize() >= this->maxHistory) {
+			this->undoHistory.goToStart();
+			delete this->undoHistory.remove();
+		}
+		this->undoHistory.append(a);
+	}
+
+	// Extrae la última acción realizada del historial de deshacer
+	Action* popUndo() {
+		this->undoHistory.goToPos(this->undoHistory.getSize() - 1);
+		return this->undoHistory.remove();
 	}
 
 public:
+	// Destructor virtual: Libera la memoria dinámica de historiales y columnas
 	virtual ~Game() {
 		this->clearRedoHistory();
 		this->clearUndoHistory();
 		delete[] this->columns;
 	}
+
+	// Métodos abstractos que debe implementar cada solitario concreto
 	virtual void init() = 0;
 	virtual void play() = 0;
 	virtual void end() = 0;
-	//virtual void drawFromColumn(int column, int cardPos) = 0;  // cardPos is irrelevant for Golf
 	virtual void drawFromStock() = 0;
 
+	// Ejecuta una acción válida, borra el historial de rehacer y guarda la acción en 'undo'
 	void executeAction(Action* action) {
 		if (action == nullptr) {
 			return;
 		}
 		this->clearRedoHistory();
 		action->doAction(*this);
-		undoHistory.push(action);  // NOOOPE!!! (If history is full we should remove the last one and THEN push; Stack by itself can't do this. Dequeue or CircularStack could do this)
-		// we also don't check if action is legal in this specific Game.h instance (AKA Golf or Spider). void methods in Golf/Spider that then create an action to pass it in here solve this.
+		this->pushUndo(action);
 	}
 
+	// Deshace la última acción realizada y la traslada al historial de rehacer
 	void undo() {
-		if (undoHistory.getSize() == 0) {
+		if (this->undoHistory.getSize() == 0) {
+			cout << "Nada que deshacer.\n";
 			return;
 		}
-
-		Action* a = undoHistory.pop();
+		Action* a = this->popUndo();
 		a->undoAction(*this);
-		redoHistory.push(a);
+		this->redoHistory.push(a);
 	}
+
+	// Rehace la última acción deshecha y la devuelve al historial de deshacer
 	void redo() {
-		if (redoHistory.getSize() == 0) {
+		if (this->redoHistory.isEmpty()) {
+			cout << "Nada que rehacer.\n";
 			return;
 		}
-
-		Action* a = redoHistory.pop();
+		Action* a = this->redoHistory.pop();
 		a->doAction(*this);
-		undoHistory.push(a);
+		this->pushUndo(a);
 	}
+
+	// Libera la memoria de todas las acciones guardadas en el historial de deshacer
 	void clearUndoHistory() {
-		while (!this->undoHistory.isEmpty()) {
-			Action* a = this->undoHistory.pop();
-			delete a;
+		while (this->undoHistory.getSize() > 0) {
+			delete this->popUndo();
 		}
 	}
+
+	// Libera la memoria de todas las acciones guardadas en la pila de rehacer
 	void clearRedoHistory() {
 		while (!this->redoHistory.isEmpty()) {
-			Action* a = this->redoHistory.pop();
-			delete a;
+			delete this->redoHistory.pop();
 		}
 	}
 
+	// Imprime visualmente las columnas de cartas en consola en formato de cuadrícula (matriz por filas)
 	void printColumns() {
 		if (this->columnAmount == 0) {
-			throw std::runtime_error("No columns initiated.");
+			throw runtime_error("Error, No columns initiated.");
 		}
 
 		int maxColumnHeight = 0;
 		for (int i = 0; i < this->columnAmount; i++) {
-			std::cout << "C" << (i + 1) << "\t";
+			cout << "C" << (i + 1) << "\t";
 			if (this->columns[i].getSize() > maxColumnHeight) {
 				maxColumnHeight = this->columns[i].getSize();
 			}
 		}
-		std::cout << "\n";
+		cout << "\n";
 
 		for (int row = 0; row < maxColumnHeight; row++) {
 			for (int col = 0; col < this->columnAmount; col++) {
 				if (row < this->columns[col].getSize()) {
 					this->columns[col].goToPos(row);
 					Card c = this->columns[col].getElement();
-					std::cout << c << "\t";
+					cout << c << "\t";
 				}
 				else {
-					std::cout << "\t";
+					cout << "\t";
 				}
 			}
-			std::cout << "\n";
+			cout << "\n";
 		}
 	}
 
-	void printGameState() {
-		// differences in golf and spider; golf has the current card, spider dont
+	// Imprime el estado visual básico del tablero de juego
+	virtual void printGameState() {
 		this->printColumns();
-		// and the stock
 	}
 };
-

@@ -1,11 +1,38 @@
+/*
+Instituto Tecnologico de Costa Rica
+
+Integrantes:	Owel Jafet Gutiérrez Ortiz,		2026800869
+				Miranda Jiménez Alvarado,		2026XXXXXX
+				Keishiro Gabriel Cubero Abe,	2026XXXXXX
+				Eduardo Alfonso Moreno Pérez,	2026XXXXXX
+
+Profesor : Mauricio Aviles Cisneros
+
+Semana 13 : Proyecto 0 - Juegos de Solitario
+
+Fecha de entrega : 26 / 10 / 2026
+
+*/
+
+/*
+Clase ArrayStack:
+	Implementacion de Stack con un arreglo dinamico. Cuando se llena,
+	duplica su capacidad. Lanza una excepcion al desapilar o consultar el
+	tope de una pila vacia.
+*/
+
 #pragma once
 
 #include <stdexcept>
+#include <iostream>
 #include "Stack.h"
 
+using std::cout;
+using std::runtime_error;
+using std::underflow_error;
+
 template <class E>
-class ArrayStack : public Stack<E>
-{
+class ArrayStack : public Stack<E> {
 private:
 	E* elements;
 	int max;
@@ -14,7 +41,7 @@ private:
 public:
 	ArrayStack(int max) {
 		if (max < 1) {
-			throw std::runtime_error("Invalid max size. Must be bigger than 0.");
+			throw runtime_error("Error, Invalid max size. Must be bigger than 0.");
 		}
 
 		this->elements = new E[max];
@@ -22,65 +49,62 @@ public:
 		this->size = 0;
 	}
 	~ArrayStack() {
-		this->clear();
 		delete[] this->elements;
 	}
 
 	void push(E newElement) override {
 		if (this->size >= this->max) {
-			this->max *= 2;
-			E* temp = new E[this->max];
-			for (int i = 0; i < this->max; i++) {
+			int newMax = this->max * 2;
+			E* temp = new E[newMax];
+			for (int i = 0; i < this->size; i++) {
 				temp[i] = this->elements[i];
 			}
-			delete[] elements;
-			elements = temp;
-			return;
-			//throw std::overflow_error("Cannot push to a full stack.");
+			delete[] this->elements;
+			this->elements = temp;
+			this->max = newMax;
 		}
 
 		this->elements[this->size] = newElement;
 		this->size++;
 	}
+
 	E pop() override {
 		if (this->isEmpty()) {
-			throw std::underflow_error("Cannot pop from an empty stack.");
+			throw underflow_error("Error, Cannot pop from an empty stack.");
 		}
 		this->size--;
 		return this->elements[this->size];
 	}
+
 	E topValue() override {
 		if (this->isEmpty()) {
-			throw std::underflow_error("Cannot peek from an empty stack.");
+			throw underflow_error("Error, Cannot peek from an empty stack.");
 		}
-		return this->elements[this->size-1];
+		return this->elements[this->size - 1];
 	}
+
 	void clear() override {
 		this->size = 0;
 	}
+
 	bool isEmpty() override {
 		return this->size == 0;
 	}
+
 	int getSize() override {
 		return this->size;
 	}
-	//void copy(Stack<E>& other) override {
-	//	int amount = other->getSize() < this->getSize() ? this->getSize() : other->getSize();
-	//	for (int i = 0; i < amount; i++) {
-	//		this->elements[i] = other->  // other E*. However, we only have pop() to expose the next element...
-	//	}
-	//}
+
 	void print() override {
 		if (this->isEmpty()) {
-			std::cout << "[]" << std::endl;
+			cout << "[]" << std::endl;
 			return;
 		}
 
-		std::cout << "[";
-		for (int i = 0; i < this->size-1; i++) {
-			std::cout << this->elements[i] << ", ";
+		cout << "[";
+		for (int i = 0; i < this->size - 1; i++) {
+			cout << this->elements[i] << ", ";
 		}
-		std::cout << this->elements[this->size-1] << "]" << std::endl;
+		cout << this->elements[this->size - 1] << "]" << std::endl;
 	}
 };
-

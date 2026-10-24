@@ -1,8 +1,31 @@
+/*
+Instituto Tecnologico de Costa Rica
+
+Integrantes:	Owel Jafet Gutiérrez Ortiz,		2026800869
+				Miranda Jiménez Alvarado,		2026XXXXXX
+				Keishiro Gabriel Cubero Abe,	2026XXXXXX
+				Eduardo Alfonso Moreno Pérez,	2026XXXXXX
+
+Profesor : Mauricio Aviles Cisneros
+
+Semana 13 : Proyecto 0 - Juegos de Solitario
+
+Fecha de entrega : 26 / 10 / 2026
+
+*/
+
+/*
+Clase Stack:
+	Clase abstracta plantilla que define el TDA pila. Declara las
+	operaciones de apilar, desapilar, consultar el tope, limpiar, saber si
+	esta vacia y obtener su tamano. Es implementada por ArrayStack. No se
+	puede copiar.
+*/
+
 #pragma once
 
 template <class E>
-class Stack
-{
+class Stack {
 public:
 	Stack() {}
 	virtual ~Stack() {}
@@ -16,6 +39,4 @@ public:
 	virtual bool isEmpty() = 0;
 	virtual int getSize() = 0;
 	virtual void print() = 0;
-	//virtual void copy(Stack<E>& other) = 0;
 };
-

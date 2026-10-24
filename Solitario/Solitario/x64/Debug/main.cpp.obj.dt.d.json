@@ -1,7 +1,7 @@
 {
     "Version": "1.2",
     "Data": {
-        "Source": "c:\\users\\owell\\documents\\github\\ed-proyecto-0\\solitario\\main.cpp",
+        "Source": "c:\\users\\owell\\documents\\github\\ed-proyecto-0\\solitario\\src\\main.cpp",
         "ProvidedModule": "",
         "Includes": [
             "c:\\program files\\microsoft visual studio\\18\\community\\vc\\tools\\msvc\\14.51.36231\\include\\iostream",

@@ -1,3 +1,27 @@
+/*
+Instituto Tecnologico de Costa Rica
+
+Integrantes:	Owel Jafet Gutiérrez Ortiz,		2026800869
+				Miranda Jiménez Alvarado,		2026XXXXXX
+				Keishiro Gabriel Cubero Abe,	2026XXXXXX
+				Eduardo Alfonso Moreno Pérez,	2026XXXXXX
+
+Profesor : Mauricio Aviles Cisneros
+
+Semana 13 : Proyecto 0 - Juegos de Solitario
+
+Fecha de entrega : 26 / 10 / 2026
+
+*/
+
+/*
+Clase LinkedList:
+	Implementacion de List con nodos enlazados y un nodo cabecera. Mantiene
+	punteros al inicio, a la posicion actual y al final, y la cantidad de
+	elementos. El puntero actual apunta al nodo anterior al elemento actual.
+	Lanza excepciones si la lista esta vacia o la posicion no es valida.
+*/
+
 #pragma once
 
 #include <stdexcept>
@@ -5,9 +29,14 @@
 #include "List.h"
 #include "Node.h"
 
+using std::cout;
+using std::endl;
+using std::runtime_error;
+using std::underflow_error;
+using std::out_of_range;
+
 template <class E>
-class LinkedList : public List<E>
-{
+class LinkedList : public List<E> {
 private:
 	Node<E>* head;
 	Node<E>* current;
@@ -17,17 +46,20 @@ private:
 	Node<E>*& ActualFront() {
 		return this->head->next;
 	}
+
 	Node<E>*& ActualCurrent() {
 		return this->current->next;
 	}
+
 	void ValidateList() {
 		if (this->size == 0) {
-			throw std::underflow_error("List is empty.");
+			throw underflow_error("Error, List is empty.");
 		}
 		if (this->current == this->tail) {
-			throw std::runtime_error("No current element.");
+			throw runtime_error("Error, No current element.");
 		}
 	}
+
 public:
 	LinkedList() {
 		Node<E>* plhl = new Node<E>();
@@ -37,6 +69,7 @@ public:
 
 		this->size = 0;
 	}
+
 	~LinkedList() {
 		this->clear();
 		delete this->head;
@@ -69,14 +102,13 @@ public:
 		this->ValidateList();
 
 		Node<E>* tempCurr = this->ActualCurrent();
-		E tempCurrElem = this->ActualCurrent()->elem;
+		E tempCurrElem = tempCurr->elem;
 
-		this->ActualCurrent() = this->ActualCurrent()->next;
-		delete tempCurr;
-
-		if (this->size == 1) {
-			this->tail = this->head;
+		this->ActualCurrent() = tempCurr->next;
+		if (tempCurr == this->tail) {
+			this->tail = this->current;
 		}
+		delete tempCurr;
 
 		this->size--;
 		return tempCurrElem;
@@ -110,7 +142,7 @@ public:
 
 	void goToPos(int pos) override {
 		if (pos > this->size || pos < 0) {
-			throw std::out_of_range("Position out of bounds.");
+			throw out_of_range("Error, Position out of bounds.");
 		}
 
 		this->current = this->head;
@@ -124,16 +156,8 @@ public:
 			this->current = this->current->next;
 		}
 	}
+
 	void previous() override {
-		//this->ActualCurrent() = this->current;
-
-		//for (Node<E>* temp = this->ActualFront(); temp != nullptr; temp = temp->next) {
-		//	if (temp->next == this->current) {
-		//		this->current = temp;
-		//		return;
-		//	}
-		//}
-
 		if (this->current != this->head) {
 			Node<E>* temp = this->head;
 			while (temp->next != this->current) {
@@ -146,14 +170,13 @@ public:
 	bool atEnd() override {
 		return this->current == this->tail;
 	}
+
 	bool atStart() override {
 		return this->current == this->head;
 	}
+
 	int getPos() override {
 		int pos = 0;
-		//for (Node<E>* temp = this->ActualFront(); temp == this->ActualCurrent(); temp = temp->next) {
-		//	pos++;
-		//}
 
 		Node<E>* temp = this->head;
 		while (temp->next != this->ActualCurrent()) {
@@ -163,19 +186,19 @@ public:
 
 		return pos;
 	}
+
 	int getSize() override {
 		return this->size;
 	}
 
 	void print() override {
-		std::cout << "[";
+		cout << "[";
 		for (Node<E>* temp = this->ActualFront(); temp != nullptr; temp = temp->next) {
-			std::cout << temp->elem;
+			cout << temp->elem;
 			if (temp->next != nullptr) {
-				std::cout << ", ";
+				cout << ", ";
 			}
 		}
-		std::cout << "]" << std::endl;
+		cout << "]" << endl;
 	}
 };
-

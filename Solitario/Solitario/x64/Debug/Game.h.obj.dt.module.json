@@ -1,0 +1,14 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "Solitario\\x64\\Debug\\Game.obj",
+            "outputs": [
+                "Solitario\\x64\\Debug\\Game.h.obj.dt.module.json",
+                "Solitario\\x64\\Debug\\Game.h.obj.dt.d.json"
+            ],
+            "requires": []
+        }
+    ]
+}

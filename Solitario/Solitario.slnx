@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="Solitario.vcxproj" />
+  <Project Path="Solitario.vcxproj" Id="ceb04922-f8f0-4736-9b9d-2d4b58d8b9c5" />
 </Solution>

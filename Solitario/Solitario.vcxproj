@@ -141,6 +141,11 @@
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\structures\Node.h" />
+    <ClInclude Include="src\spider\SpiderActions.h" />
+    <ClInclude Include="src\spider\SpiderGame.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
