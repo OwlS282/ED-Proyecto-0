@@ -58,4 +58,12 @@ public:
 		GolfGame& game = static_cast<GolfGame&>(g);
 		game.DiscardToDeck();
 	}
+
+	inline void GolfGame::drawFromStock() 
+	{
+		if (!stock.isEmpty())
+		{
+			executeAction(new MovefromStock());
+		}
+	}
 };

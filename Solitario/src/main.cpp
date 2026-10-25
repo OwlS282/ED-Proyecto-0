@@ -95,7 +95,7 @@ int main()
 				game->play();
 				game->end();
 
-				cout << "Otra ronda? (s/n): ";
+				cout << "¿Jugar de nuevo? (s/n): "; //Con el Golf no tiene sentido que diga otra ronda.
 				cin >> again;
 				clearLine();
 			} while (again == 's' || again == 'S');

@@ -85,10 +85,6 @@ public:
 	}
 	void drawFromStock()
 	{
-		if (!stock.isEmpty())
-		{
-			executeAction(new MovefromStock());
-		}
 
 	}
 	Card getColumnTop(int numColumn)
@@ -98,7 +94,7 @@ public:
 	}
 	Card getDiscardPileTop()
 	{
-		return discardPile.topValue()
+		return discardPile.topValue();
 	}
 
 	void ColumnToDiscard(int numColumn)
@@ -120,17 +116,20 @@ public:
 	{
 		stock.putBack(discardPile.pop());
 	}
-	bool isValideMove(int numColumn)
+	bool isValidMove(int numColumn)
 	{
-		if (numColumn < 1 || numColumn > 7)
+		if (numColumn < 0 || numColumn >= columnAmount-1)
 			return false;
 		else if (columns[numColumn].getSize() == 0)
 			return false;
-		else if (getColumnTop(numColumn).isAdjacentRank(getDiscardPileTop()))
-			return true;
+		return getColumnTop(numColumn).isAdjacentRank(getDiscardPileTop());
 	}
 	bool isStockEmpty()
 	{
 		return stock.isEmpty();
 	}
+
+
+
 };
+#include "GolfActions.h"
