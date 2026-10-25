@@ -16,7 +16,10 @@ Fecha de entrega : 26 / 10 / 2026
 
 /*
 Clase SpiderMoveAction:
-	Descripcion...
+	Accion que mueve una secuencia de cartas de una columna a otra en
+	Spider. Al ejecutarse voltea la carta que queda descubierta y retira la
+	secuencia si se completa de la K a la A. Guarda lo ocurrido para poder
+	deshacer el movimiento.
 */
 
 #pragma once
@@ -60,16 +63,35 @@ public:
 
 	// Ejecuta el movimiento, voltea la carta descubierta y retira la secuencia si se completa
 	void doAction(Game& g) override {
-		// TODO: mover las cartas con transfer, voltear la carta descubierta,
-		// retirar la secuencia si se completa y sumar un movimiento
+		this->flipped = false;
+		this->completedSeq = false;
 
+		this->transfer(this->from, this->to, this->count);
+		if (this->game->topIsFaceDown(this->from)) {
+			this->game->flipTop(this->from);
+			this->flipped = true;
+		}
+
+		if (this->game->hasCompleteSequence(this->to)) {
+			this->game->removeSequence(this->to);
+			this->completedSeq = true;
+		}
+
+		this->game->addMoves(1);
 	}
 
 	// Revierte el movimiento: restaura secuencia completada, reoculta la carta descubierta y regresa el bloque
 	void undoAction(Game& g) override {
-		// TODO: restaurar la secuencia retirada, voltear de nuevo la carta
-		// descubierta, regresar las cartas y restar un movimiento
+		if (this->completedSeq) {
+			this->game->restoreSequence(this->to);
+		}
 
+		if (this->flipped) {
+			this->game->flipTop(this->from);  // vuelve a quedar boca abajo
+		}
+
+		this->transfer(this->to, this->from, this->count);
+		this->game->addMoves(-1);
 	}
 
 };
@@ -97,16 +119,26 @@ public:
 
 	// Reparte una carta a cada columna y remueve las secuencias completadas
 	void doAction(Game& g) override {
-		// TODO: poner una carta del stock en cada columna, retirar las
-		// secuencias que se completen y sumar un movimiento
-
+		for (int col = 0; col < 10; col++) {
+			this->completedCol[col] = false;
+			this->game->returnToColumn(col, this->game->takeFromStock());
+			if (this->game->hasCompleteSequence(col)) {
+				this->game->removeSequence(col);
+				this->completedCol[col] = true;
+			}
+		}
+		this->game->addMoves(1);
 	}
 
 	// Deshace el reparto: restaura secuencias retiradas y regresa las cartas repartidas al mazo/stock
 	void undoAction(Game& g) override {
-		// TODO: regresar las cartas repartidas al stock, restaurar las
-		// secuencias retiradas y restar un movimiento
-
+		for (int col = 9; col >= 0; col--) {
+			if (this->completedCol[col]) {
+				this->game->restoreSequence(col);
+			}
+			this->game->returnToStock(this->game->takeFromColumn(col));
+		}
+		this->game->addMoves(-1);
 	}
 };
 
@@ -114,9 +146,19 @@ public:
 
 // Valida las reglas de reparto e invoca la acción SpiderDealAction
 void SpiderGame::drawFromStock() {
-	// TODO: validar que haya stock y que ninguna columna este vacia,
-	// y ejecutar un SpiderDealAction con executeAction
+	if (this->stock.getSize() < this->columnAmount) {
+		cout << "Error, El stock esta vacio.\n";
+		return;
+	}
 
+	for (int i = 0; i < this->columnAmount; i++) {
+		if (this->columns[i].getSize() == 0) {
+			cout << "Error, No puedes repartir con columnas vacias.\n";
+			return;
+		}
+	}
+
+	this->executeAction(new SpiderDealAction(this));
 }
 
 // Valida la legalidad de mover una secuencia entre columnas e invoca SpiderMoveAction

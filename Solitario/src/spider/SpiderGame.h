@@ -16,7 +16,13 @@ Fecha de entrega : 26 / 10 / 2026
 
 /*
 Clase SpiderGame:
-	Descripcion...
+	Juego Spider de un solo palo con dos mazos (104 cartas) y 10 columnas.
+	Reparte las cartas iniciales, mueve secuencias descendentes consecutivas
+	entre columnas, reparte una carta en cada columna desde el stock y
+	retira las secuencias completas de la K a la A. El jugador gana al
+	completar 8 secuencias. Cada movimiento se guarda como una accion para
+	poder deshacerlo o rehacerlo, y el puntaje se calcula segun los
+	movimientos y las secuencias completadas.
 */
 
 #pragma once
@@ -134,21 +140,36 @@ public:
 
 	// Verifica si las últimas 13 cartas de una columna forman la secuencia completa K..A boca arriba
 	bool hasCompleteSequence(int col) {
-		// TODO: revisar si las ultimas 13 cartas son K, Q, J, ..., 2, A boca arriba
-		return false;
-
+		int size = this->colSize(col);
+		if (size < sequenceLength) {
+			return false;
+		}
+		int start = size - sequenceLength;
+		for (int i = 0; i < sequenceLength; i++) {
+			Card c = this->cardAt(col, start + i);
+			Card expected(sequenceLength - i);
+			if (!c.isFaceUp() || !c.sameRank(expected)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	// Elimina las últimas 13 cartas de la columna e incrementa el contador de secuencias
 	void removeSequence(int col) {
-		// TODO: sacar las ultimas 13 cartas de la columna y sumar 1 a completed
-
+		for (int i = 0; i < sequenceLength; i++) {
+			this->takeFromColumn(col);
+		}
+		this->completed++;
 	}
 
 	// Devuelve las 13 cartas K..A a la columna (utilizado al deshacer)
 	void restoreSequence(int col) {
-		// TODO: devolver las 13 cartas K..A a la columna y restar 1 a completed
-
+		for (int rank = sequenceLength; rank >= 1; rank--) {
+			Card c(rank);
+			this->returnToColumn(col, c);
+		}
+		this->completed--;
 	}
 
 	// Ajusta la cantidad total de movimientos (+1 al realizar o -1 al deshacer)
@@ -203,14 +224,65 @@ void SpiderGame::printGameState() {
 		<< "    Puntos: " << (500 - this->moves + 100 * this->completed) << "\n";
 }
 
-// TODO: bucle principal que lea los comandos (m, d, u, r, q)
+// Bucle principal de juego que procesa los comandos del jugador por consola
 void SpiderGame::play() {
-	cout << "Spider aun no esta implementado.\n";
+	cout << "Comandos: m <col origen> <fila> <col destino> | d (repartir) | u | r | q\n"
+		<< "  <fila> es la fila (1 = arriba) de la primera carta a mover.\n";
+	this->printGameState();
+
+	char cmd;
+	while (!this->isWon()) {
+		cout << "> ";
+		if (!(cin >> cmd)) {
+			return;
+		}
+
+		bool showState = true;
+		if (cmd == 'm' || cmd == 'M') {
+			int from, pos, to;
+			if (cin >> from >> pos >> to) {
+				this->moveSequence(from, pos, to);
+			}
+			else {
+				cin.clear();  // Limpia el estado de error del stream de entrada
+				cout << "Uso: m <origen> <fila> <destino>\n";
+				showState = false;
+			}
+		}
+		else if (cmd == 'd' || cmd == 'D') {
+			this->drawFromStock();
+		}
+		else if (cmd == 'u' || cmd == 'U') {
+			this->undo();
+		}
+		else if (cmd == 'r' || cmd == 'R') {
+			this->redo();
+		}
+		else if (cmd == 'q' || cmd == 'Q') {
+			return;
+		}
+		else {
+			cout << "Comando desconocido.\n";
+			showState = false;
+		}
+
+		cin.ignore(1000, '\n'); // Limpia el búfer de entrada hasta el salto de línea
+		if (showState) {
+			this->printGameState();
+		}
+	}
 }
 
-// TODO: mostrar mensaje final y puntaje
+// Muestra el mensaje final de partida terminada o victoria junto con el puntaje definitivo
 void SpiderGame::end() {
-	cout << "\nPartida terminada.\n";
+	if (this->isWon()) {
+		cout << "\nGanaste! ";
+	}
+	else {
+		cout << "\nPartida terminada. ";
+	}
+	cout << "Secuencias: " << this->completed << "/" << totalSequences
+		<< " | Puntos: " << (500 - this->moves + 100 * this->completed) << "\n";
 }
 
 // Las acciones (y los metodos que las crean) van en SpiderActions.h.
