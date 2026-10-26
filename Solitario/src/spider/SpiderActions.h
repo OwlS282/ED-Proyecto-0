@@ -31,12 +31,13 @@ Clase SpiderMoveAction:
 
 class SpiderMoveAction : public Action {
 private:
-	SpiderGame* game;  // Puntero al juego principal Spider
-	int from;          // Indice de la columna origen (0 a 9)
-	int to;            // Indice de la columna destino (0 a 9)
-	int count;         // Cantidad de cartas a mover
-	bool flipped;      // Se volteo una carta al dejar la columna origen descubierta?
-	bool completedSeq; // El movimiento completo una secuencia K..A en el destino?
+	SpiderGame* game;			// Puntero al juego principal Spider
+	int from;					// Indice de la columna origen (0 a 9)
+	int to;						// Indice de la columna destino (0 a 9)
+	int count;					// Cantidad de cartas a mover
+	bool flipped;				// Se volteo una carta al dejar la columna origen descubierta?
+	bool completedSeq;			// El movimiento completo una secuencia K..A en el destino?
+	bool flippedDestination;	// Se agregó para lidiar con un edgecase en particular
 
 	// Mueve 'n' cartas de la columna origen a la destino manteniendo el orden original usando una pila auxiliar
 	void transfer(int src, int dst, int n) {
@@ -59,12 +60,16 @@ public:
 		this->count = count;
 		this->flipped = false;
 		this->completedSeq = false;
+		this->flippedDestination = false;
 	}
 
 	// Ejecuta el movimiento, voltea la carta descubierta y retira la secuencia si se completa
 	void doAction(Game& g) override {
 		this->flipped = false;
 		this->completedSeq = false;
+		this->flipped = false;
+		this->completedSeq = false;
+		this->flippedDestination = false;
 
 		this->transfer(this->from, this->to, this->count);
 		if (this->game->topIsFaceDown(this->from)) {
@@ -75,6 +80,11 @@ public:
 		if (this->game->hasCompleteSequence(this->to)) {
 			this->game->removeSequence(this->to);
 			this->completedSeq = true;
+
+			if (this->game->topIsFaceDown(this->to)) {
+				this->game->flipTop(this->to);
+				this->flippedDestination = true;
+			}
 		}
 
 		this->game->addMoves(1);
@@ -83,6 +93,10 @@ public:
 	// Revierte el movimiento: restaura secuencia completada, reoculta la carta descubierta y regresa el bloque
 	void undoAction(Game& g) override {
 		if (this->completedSeq) {
+			if (this->flippedDestination) {
+				this->game->flipTop(this->to);
+			}
+
 			this->game->restoreSequence(this->to);
 		}
 

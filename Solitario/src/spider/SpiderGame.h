@@ -217,7 +217,7 @@ void SpiderGame::init() {
 
 // Imprime las columnas del tablero, las reparticiones disponibles, secuencias y el puntaje
 void SpiderGame::printGameState() {
-	cout << "\n|    Spider - Ronda " << this->numRound << "    |\n";
+	cout << "\n*     Spider - Ronda " << this->numRound << "    |\n";
 	this->printColumns();
 	cout << "\nReparticiones restantes: " << this->stock.getSize() / this->columnAmount
 		<< "    Secuencias: " << this->completed << "/" << totalSequences
@@ -282,7 +282,7 @@ void SpiderGame::end() {
 		cout << "\nPartida terminada. ";
 	}
 	cout << "Secuencias: " << this->completed << "/" << totalSequences
-		<< " | Puntos: " << (500 - this->moves + 100 * this->completed) << "\n";
+		<< " * Puntos: " << (500 - this->moves + 100 * this->completed) << "\n";
 }
 
 // Las acciones (y los metodos que las crean) van en SpiderActions.h.
