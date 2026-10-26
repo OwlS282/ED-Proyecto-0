@@ -48,17 +48,17 @@ int main()
 	try {
 		int option = 0;
 		while (option != 3) {
-			cout << "┌───────────────────┐" << endl;
-			cout << "│     SOLITARIO     │" << endl;
-			cout << "├───────────────────┤" << endl;
-			cout << "│ 1. Golf           │" << endl;
-			cout << "│ 2. Spider         │" << endl;
-			cout << "│ 3. Salir          │" << endl;
-			cout << "├───────────────────┤" << endl;
-			cout << "│ Opcion:           │\r│ Opcion: ";
+			cout << "*********************" << endl;
+			cout << "*     SOLITARIO     *" << endl;
+			cout << "*********************" << endl;
+			cout << "* 1. Golf           *" << endl;
+			cout << "* 2. Spider         *" << endl;
+			cout << "* 3. Salir          *" << endl;
+			cout << "*********************" << endl;
+			cout << "* Opcion:           *\r* Opcion: ";
 			cin >> option;
-			cout << "\033[F" << "│ Opcion: " << option << "         │" << endl;
-			cout << "└───────────────────┘" << endl;
+			cout << "\033[F" << "* Opcion: " << option << "         *" << endl;
+			cout << "*********************" << endl;
 
 			if (cin.eof()) {  // se cerro la entrada: salir
 				break;
