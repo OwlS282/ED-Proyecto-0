@@ -2,9 +2,9 @@
 Instituto Tecnologico de Costa Rica
 
 Integrantes:	Owel Jafet Gutiérrez Ortiz,		2026800869
-				Miranda Jiménez Alvarado,		2026XXXXXX
-				Keishiro Gabriel Cubero Abe,	2026XXXXXX
-				Eduardo Alfonso Moreno Pérez,	2026XXXXXX
+				Miranda Jiménez Alvarado,		2026008618
+				Keishiro Gabriel Cubero Abe,	2026091245
+				Eduardo Alfonso Moreno Pérez,	2025080891
 
 Profesor : Mauricio Aviles Cisneros
 
@@ -15,8 +15,24 @@ Fecha de entrega : 26 / 10 / 2026
 */
 
 /*
-Clase GolfGame:S
-	Descripcion...
+Clase GolfGame:
+	El juego Solitario Golf se juego con 52 cartas 
+	35 cartas de ellas repartidas en siete columnas de cinco elementos
+	cada una, 16 de las cartas restantes se mantienen en el mazo y la ultima 
+	carta restante se mantiene boca arriba.
+	El juego consiste en utilizar la carta boca arriba para ir descartando 
+	poco a poco las cartas de las columnas; esto es posible si las cartas al 
+	final de las columnas es mayor o menos por uno que la carta boca arriba, 
+	una vez se desarta una carta esta pasa a ser la carta boca arriba que se
+	usa para comparar en la siguiente jugada.
+	El juego funciona por 9 rondas en las que se acumulan puntos. 
+	-Una ronda se considera ganada sí ya no quedan cartas en las columnas, 
+	además se dan -1 punto por cada carta que quede en el mazo.
+	-Una ronda ronda se considera perdida si aún queda cartas en las 
+	columnas y ya no quedan cartas en el mazo o movimientos válidos. 
+	Entre menor sea el puntaje total de las 9 rondas se considera ganado
+	o perdido el juego. 
+
 */
 
 #pragma once
@@ -47,7 +63,7 @@ private:
 
 public:
 	GolfGame() : Game(1,7,100), discardPile(52) {}
-	void startRound()
+	void startRound() //Reinicia los valores que se deben utilizar en cada ronda. 
 	{
 		for (int i = 0; i < columnAmount; i++)
 		{
@@ -70,8 +86,9 @@ public:
 		cout << "Su puntaje hasta el momento es: " << totalScore << endl;
 
 	}
-	void play();
-		void endRound()
+	void play(); 
+
+		void endRound() //Actualiza los puntajes con la información de la ronda. 
 		{
 			int waste = 0;
 			for (int i = 0; i < columnAmount; i++)
@@ -92,36 +109,36 @@ public:
 			discardPile.clear();
 		}
 		void drawFromStock();
-		Card getColumnTop(int numColumn)
+		Card getColumnTop(int numColumn) //Busca el elemento en el tope de una columna especifica.
 		{
 			columns[numColumn].goToPos(columns[numColumn].getSize() - 1);
 			return columns[numColumn].getElement();
 		}
 		Card getDiscardPileTop()
 		{
-			return discardPile.topValue();
+			return discardPile.topValue(); //Busca el elemtno en el tope de la columna de descarte.
 		}
 
-		void ColumnToDiscard(int numColumn)
+		void ColumnToDiscard(int numColumn) //Mueve un elemento de la columna a la pila de descarte.
 		{
 			Card columnCard = getColumnTop(numColumn);
 			discardPile.push(columnCard);
 			columns[numColumn].remove();
 		}
-		void DiscardToColumn(int numColumn)
+		void DiscardToColumn(int numColumn) //Mueve un elemento de la pila de descarte a la columna donde estaba.
 		{
 			Card discardCard = discardPile.pop();
 			columns[numColumn].append(discardCard);
 		}
-		void DeckToDiscard()
+		void DeckToDiscard() //Mueve un elemnto del mazo a la pila de descarte 
 		{
 			discardPile.push(stock.draw());
 		}
-		void DiscardToDeck()
+		void DiscardToDeck() //Mueve un elemento de la pila de descarte de regreso al mazo.
 		{
 			stock.putBack(discardPile.pop());
 		}
-		bool isValidMove(int numColumn)
+		bool isValidMove(int numColumn) //Comprueba si un elemento es válido o no.
 		{
 			if (numColumn < 0 || numColumn >= columnAmount)
 				return false;
@@ -129,17 +146,17 @@ public:
 				return false;
 			return getColumnTop(numColumn).isAdjacentRank(getDiscardPileTop());
 		}
-		bool isStockEmpty()
+		bool isStockEmpty() //Revisa si el mazo está vacío. 
 		{
 			return stock.isEmpty();
 		}
 
-		void init()
+		void init() //Empieza un nuevo juego.
 		{	
 			cout << "Golf Game" << endl;
 			reset();
 		}
-		void end()
+		void end() //Finaliza un juego e imprime sus resultados.
 		{
 			cout << "Juego finalizado." << endl;
 			if (abandoned)
@@ -153,7 +170,7 @@ public:
 			cout << "Su puntaje total fue:  " << totalScore << endl;
 			cout << "Gracias por jugar" << endl;
 		}
-		int options()
+		int options() //Imprime las jugadas disponibles y recoje la opción escogida.
 		{
 			cout << "1. Quitar de columna." << endl;
 			cout << "2. Sacar del mazo." << endl;
@@ -168,7 +185,7 @@ public:
 			cin.ignore(1000, '\n');
 			return -1;
 		}
-		string Status()
+		string Status() //Calcula el estado final del juego.
 		{
 			string status;
 			if (totalScore <= 0)
@@ -179,7 +196,7 @@ public:
 				status = "MALO";
 			return status;
 		}
-		void reset()
+		void reset() //Reinicia los valorres necesarios para un nuevo juego.
 		{
 			numRound = 0;
 			totalScore = 0;
@@ -189,7 +206,7 @@ public:
 			abandoned = false;
 			discardPile.clear();
 		}
-		bool isRoundFinished()
+		bool isRoundFinished() //Comprueba si una ronda terminó o uno.
 		{
 			int temp = 0;
 			for (int i = 0; i < columnAmount; i++)
@@ -200,14 +217,14 @@ public:
 				return true;
 			return false;
 		}
-		bool AreThereMoves()
+		bool AreThereMoves() //Comprueba si hay movimientos disponibles.
 		{
 			for (int i = 0; i < columnAmount; i++)
 				if (isValidMove(i))
 					return true;
 			return false;
 		}
-		int setColumn()
+		int setColumn() // Recibe la columna a utilizar en una jugada y la devuelve.
 		{
 			cout << "Digite el numero de la columna donde se encuentra la carta que sea descartar" << endl;
 			int column;
@@ -221,7 +238,7 @@ public:
 			return column;
 
 		}
-		void abandon()
+		void abandon() //Agrega los resultados de abandonar una ronda. 
 		{
 
 			abandoned = true;
