@@ -209,7 +209,7 @@ public:
 		}
 		int setColumn()
 		{
-			cout << "Digite el numero de la columna donde se encuertra la carta que sea descartar" << endl;
+			cout << "Digite el numero de la columna donde se encuentra la carta que sea descartar" << endl;
 			int column;
 			cin >> column;
 			if (cin.fail())

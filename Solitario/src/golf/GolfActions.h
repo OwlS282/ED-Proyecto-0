@@ -72,7 +72,7 @@ inline void GolfGame::play()
 	while (numRound < 9 && !abandoned)
 	{
 		startRound();
-		while (!isRoundFinished() && !abandoned)
+		while (!abandoned && !isRoundFinished())
 		{
 			cout << "Quedan " << stock.getSize() << " en el mazo" << endl;
 			cout << "La carta en el tope de descarte es: " << discardPile.topValue() << endl;
