@@ -26,7 +26,7 @@ Programa principal (main):
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
-//#include "../src/golf/GolfGame.h" //descomentar para probar el modo
+#include "../src/golf/GolfGame.h"
 #include "../src/spider/SpiderGame.h"
 
 using std::cout;
@@ -81,9 +81,7 @@ int main()
 
 			Game* game;
 			if (option == 1) {
-				//game = new GolfGame(); descomentar cuando este lista
-				cout << "a la espera de ser implementado\n";	//borrar esta linea y dejar solo game = new GolfGame() cunado este listo.
-				continue;										//esta tambien
+				game = new GolfGame();
 			}
 			else {
 				game = new SpiderGame();
@@ -95,7 +93,7 @@ int main()
 				game->play();
 				game->end();
 
-				cout << "¿Jugar de nuevo? (s/n): "; //Con el Golf no tiene sentido que diga otra ronda.
+				cout << "¿Jugar de nuevo? (s/n): "; 
 				cin >> again;
 				clearLine();
 			} while (again == 's' || again == 'S');

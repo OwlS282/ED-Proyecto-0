@@ -59,11 +59,54 @@ public:
 		game.DiscardToDeck();
 	}
 
-	inline void GolfGame::drawFromStock() 
-	{
-		if (!stock.isEmpty())
-		{
-			executeAction(new MovefromStock());
-		}
-	}
 };
+inline void GolfGame::drawFromStock()
+{
+	if (!stock.isEmpty())
+	{
+		executeAction(new MovefromStock());
+	}
+}
+inline void GolfGame::play()
+{
+	while (numRound < 9 && !abandoned)
+	{
+		startRound();
+		while (!isRoundFinished() && !abandoned)
+		{
+			cout << "Quedan " << stock.getSize() << " en el mazo" << endl;
+			cout << "La carta en el tope de descarte es: " << discardPile.topValue() << endl;
+			printColumns();
+			if (!AreThereMoves())
+				cout << "Se le recomienda sacar una carta del mazo" << endl;
+			int move = options();
+			if (move == 1)
+			{
+				int column = setColumn() - 1;
+				if (isValidMove(column))
+					executeAction(new MovefromColumns(column));
+				else
+					cout << "Movimiento Invalido" << endl;
+			}
+			else if (move == 2)
+			{
+				if (!isStockEmpty())
+					drawFromStock();
+				else
+					cout << "Movimiento Invalido" << endl;
+			}
+			else if (move == 3)
+				undo();
+			else if (move == 4)
+				redo();
+			else if (move == 5)
+				abandon();
+			else
+				cout << "Movimiento Invalido" << endl;
+		}
+		if (!abandoned)
+			endRound();
+
+
+	}
+}
